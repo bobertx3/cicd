@@ -1,0 +1,21 @@
+name: Run Databricks Job
+
+on:
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
+
+jobs:
+  trigger-databricks-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Trigger Databricks Job
+        run: |
+          curl -X POST "${{ secrets.DATABRICKS_HOST }}/api/2.1/jobs/run-now" \
+          -H "Authorization: Bearer ${{ secrets.DATABRICKS_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+                "job_id": 451592385991593
+              }'
